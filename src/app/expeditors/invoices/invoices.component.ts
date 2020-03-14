@@ -39,7 +39,7 @@ export class InvoicesComponent implements OnInit {
     if (this.customerId) {
       this.refresh();
     }
-    this.payments = this.storage.getLocalStorageList(this.storageKey);
+    this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
   }
   refresh() {
     this.storage.getDataList(this.routeData, { customerId: this.customerId, expeditorId: this.expeditorId }).subscribe(result => {

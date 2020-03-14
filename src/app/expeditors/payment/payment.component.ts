@@ -30,12 +30,12 @@ export class PaymentComponent implements OnInit {
     this.payment = e.target.value;
   }
   save() {
-    const payments = this.storage.getLocalStorageList(this.storageKey);
+    const payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
     if (this.payment > 0) {
       this.invoice.payment = this.payment;
       this.invoice.isSaved = null;
       payments.push(this.invoice);
-      this.storage.setLocalStorageList(this.storageKey, payments);
+      localStorage.setItem(this.storageKey, JSON.stringify(payments));
       this.storage.invoice = null;
       this.router.navigate(['tabs/expeditors/invoices']);
     }

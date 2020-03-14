@@ -18,7 +18,7 @@ export class PaymentsComponent implements OnInit {
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
     // tslint:disable-next-line:align
     private config: ConfigService, private location: Location) {
-    this.payments = this.storage.getLocalStorageList(this.storageKey);
+    this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
   }
 
   ngOnInit() { }

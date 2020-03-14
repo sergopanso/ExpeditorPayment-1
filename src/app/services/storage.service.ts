@@ -16,43 +16,39 @@ export class StorageService {
   constructor(private busService: EventsService, private httpService: HttpService, private config: ConfigService) { }
 
   getDataList(route: string, parameters?: any): Observable<any[]> {
-    const key = parameters ? `${route}${parameters}` : route;
-    const entitiesString = localStorage.getItem(key);
-    // const entities: any[] = entitiesString ? JSON.parse(entitiesString) : [];
-    const entities: any[] = [];
-    return entities.length ? of(entities) : this.httpService.getList(route, parameters)
+    let key = `${route}`;
+    if (parameters) {
+      for (let prop in parameters) {
+        key = `${key}${parameters[prop]}`;
+      }
+    }
+    const entities = JSON.parse(localStorage.getItem(key));
+    const that = this;
+    return entities != null && entities.length ? of(entities) : this.httpService.getList(route, parameters)
       .pipe(map(result => {
-        // this.setLocalStorageValue(key, result);
+        localStorage.setItem(key, JSON.stringify(result));
         return result;
       })
       );
   }
-  refreshDataItem(route: string, parameters: any): any {
-    const entitiesString = localStorage.getItem(route);
-
-    const entity = entitiesString ? JSON.parse(entitiesString) : '';
-    return entity;
+  getDataItem(route: string, parameters?: any): Observable<any> {
+    let key = `${route}`;
+    if (parameters) {
+      for (let prop in parameters) {
+        key = `${key}${parameters[prop]}`;
+      }
+    }
+    const entities = JSON.parse(localStorage.getItem(key));
+    const that = this;
+    return entities != null && entities.length ? of(entities) : this.httpService.getItem(route, parameters)
+      .pipe(map(result => {
+        localStorage.setItem(key, JSON.stringify(result));
+        return result;
+      })
+      );
   }
-  downloadDataItem(route: string, parameters: any): Observable<any> {
-
-    const entities$ = this.httpService.getItem(route, parameters);
-    return entities$;
-  }
-  setLocalStorageValue(key: string, value: any) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-  setLocalStorageList(key: string, value: any[]) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-  getLocalStorageValue(key: string): any {
-    const entitiesString = localStorage.getItem(key);
-    const entity = entitiesString ? JSON.parse(entitiesString) : '';
-    return entity;
-  }
-  getLocalStorageList(key: string): any[] {
-    const entitiesString = localStorage.getItem(key);
-    const entity = entitiesString ? JSON.parse(entitiesString) : [];
-    return entity;
+  clearDataByKey(key: string) {
+    localStorage.removeItem(key);
   }
   clearData() {
     const token = this.config.getAuth();
