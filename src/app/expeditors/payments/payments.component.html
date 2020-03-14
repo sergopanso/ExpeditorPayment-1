@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button size="small"  (click)="swipeleftHandler()" color="default">Back</ion-button>
+    </ion-buttons>    
+    <ion-buttons slot="primary">
+      <ion-button (click)="download()">
+        <ion-icon name="download" class="icon-toolbar"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Оплаты</ion-title>       
+  </ion-toolbar>
+</ion-header>
+<ion-content (swipeleft)="swipeleftHandler()">
+  <ion-list>
+    <ion-grid>
+      <ion-row class="table-head ion-padding-top ion-padding-start ion-padding-end">
+        <ion-col size="1" class="ion-text-center">
+          <ion-note></ion-note>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-note>Накладная</ion-note>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-note>Покуп</ion-note>
+        </ion-col>
+        <ion-col size="3" class="ion-text-center">
+          <ion-note>Оплата</ion-note>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let item of payments" class="element element-orders roworder" (click)="invoice(item)">
+        <ion-col class="d-flex">
+          <ion-row class="full-width d-flex align-items-center">
+            <ion-col size="2" class="ion-text-center" *ngIf="item.isSaved">
+              <ion-icon name="checkmark-circle" color="success icon"></ion-icon>
+            </ion-col>
+            <ion-col size="2" class="ion-text-center" *ngIf="!item.isSaved">
+              <ion-icon name="checkmark-circle" color="default icon"></ion-icon>
+            </ion-col>
+            <ion-col size="4" class="ion-text-center">
+              <ion-note color="dark">
+                {{ item.docNo }}
+              </ion-note>
+            </ion-col>
+            <ion-col size="3" class="ion-text-center">
+              <ion-note color="dark">
+                {{item.customerName}}
+              </ion-note>
+            </ion-col>
+            <ion-col size="3" class="ion-text-end">
+              <ion-note color="dark">{{item.total}} / {{item.payment}}</ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>

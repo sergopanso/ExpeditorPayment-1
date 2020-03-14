@@ -1,0 +1,7 @@
+{
+  "name": "ExpeditorPayment",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

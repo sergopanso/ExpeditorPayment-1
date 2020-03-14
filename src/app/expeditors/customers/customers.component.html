@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button size="small"  (click)="swipeleftHandler()" color="default">Back</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="download()">
+        <ion-icon name="download" class="icon-toolbar"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{expeditorTitle ? expeditorTitle :'Экспедитор не выбран'}}</ion-title>      
+  </ion-toolbar>
+</ion-header>
+<ion-content  (swipeleft)="swipeleftHandler()">
+  <ion-item>
+    <ion-toggle slot="end" (click)="filter()"  [(ngModel)]="isFilter"></ion-toggle> 
+</ion-item>
+  <ion-list   [hidden]="!isFilter">
+    <ion-grid>
+      <ion-row  *ngFor="let item of data"  [hidden]="item.done" class="element element-agents">
+        <ion-col (click)="invoices(item)" size="7">          
+              <ion-note color="dark">{{item.title}}</ion-note>
+        </ion-col>
+        <ion-col size="2">
+          <ion-note color="dark">{{item.orderTitle}}</ion-note>
+        </ion-col>
+        <ion-col size="2">
+          <ion-toggle (click)="filter()"  [(ngModel)]="item.done"></ion-toggle>
+        </ion-col>
+        <ion-col size="1">
+          <div class="arrow-box float-right">
+            <svg width="8" height="13" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.5L1.5 0 8 6.5 1.5 13 0 11.5l5-5-5-5z"/></svg>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+  <ion-list   [hidden]="isFilter">
+    <ion-grid>
+      <ion-row  *ngFor="let item of data" class="element element-agents">
+        <ion-col (click)="invoices(item)" size="7">          
+              <ion-note color="dark">{{item.title}}</ion-note>
+        </ion-col>
+        <ion-col size="2">
+          <ion-note color="dark">{{item.orderTitle}}</ion-note>
+        </ion-col>
+        <ion-col size="2">
+          <ion-toggle (click)="filter()"  [(ngModel)]="item.done"></ion-toggle>
+        </ion-col>
+        <ion-col size="1">
+          <div class="arrow-box float-right">
+            <svg width="8" height="13" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.5L1.5 0 8 6.5 1.5 13 0 11.5l5-5-5-5z"/></svg>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>

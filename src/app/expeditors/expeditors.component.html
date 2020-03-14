@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button (click)="download()">
+        <ion-icon name="download" class="icon-toolbar"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Экспедиторы</ion-title>    
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-grid>
+      <ion-row *ngFor="let item of data" (click)="customers(item)" class="element element-agents">
+        <ion-col size="11">          
+            <div class="element-item">
+              <div [attr.class]="mapColor[item.title[0]] || ''"> <!--avatar-green avatar-purple avatar-navy avatar-yellow-->
+                {{item.title[0]}}
+              </div>
+              <ion-note color="dark">{{item.title}}</ion-note>
+            </div>          
+        </ion-col>
+        <ion-col size="1">
+          <div class="arrow-box float-right">
+            <svg width="8" height="13" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.5L1.5 0 8 6.5 1.5 13 0 11.5l5-5-5-5z"/></svg>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-content>

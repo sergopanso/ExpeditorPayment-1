@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button size="small"  (click)="swipeleftHandler()" color="default">Back</ion-button>
+    </ion-buttons>     
+    <ion-buttons slot="primary">
+      <ion-button (click)="download()">
+        <ion-icon name="download" class="icon-toolbar"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content (swipeleft)="swipeleftHandler()">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle *ngIf="invoice">{{invoice.docDateTitle}}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="invoice">{{invoice.customerName}}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="invoice">{{invoice.agentName}}</ion-card-subtitle>
+      <ion-card-subtitle>{{invoice ? invoice.docNo : 'Накладная не выбрана'}}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="invoice && invoice.notice">{{invoice.notice}}</ion-card-subtitle>
+      <ion-card-title *ngIf="invoice">{{invoice.total}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="invoice">
+      <ion-item>
+        <ion-input required type="number" [attr.value]="payment" (input)="handlePayment($event)"
+          placeholder="Ввести оплату"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <div class="ion-padding" *ngIf="invoice">
+    <ion-button expand="block" (click)="save(item)" class="ion-no-margin">Записать</ion-button>
+  </div>
+</ion-content>
