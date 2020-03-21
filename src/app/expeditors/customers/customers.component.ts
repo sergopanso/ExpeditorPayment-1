@@ -35,6 +35,8 @@ export class CustomersComponent implements OnInit {
     console.log(this.expeditorId);
     if (this.expeditorId) {
       this.refresh();
+    }else{
+      this.router.navigate(['tabs/expeditors/authentication']);
     }
   }
   refresh() {

@@ -75,8 +75,15 @@ export class ExpeditorsComponent implements OnInit {
   }
   customers(e) {
     if (e) {
-      this.storage.expeditor = e;
-      this.router.navigate(['tabs/expeditors/customers', e]);
+      const data = {
+        agentCode: e.id,
+        password: e.code,
+        // required when signing up with username/password
+      };
+      this.storage.setToken(data).subscribe(()=>{
+        this.storage.expeditor = e;
+        this.router.navigate(['tabs/expeditors/customers', e]);
+      })
     }
     console.log(e);
   }

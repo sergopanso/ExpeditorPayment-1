@@ -11,20 +11,6 @@ import { HttpService } from '../services/http.service';
 export class TabsPage implements OnInit {
 
   constructor(private busEvents: EventsService, private httpService: HttpService, private config: ConfigService) {
-    this.busEvents.refreshToken.subscribe(route => {
-      this.httpService.getToken().subscribe(token => {
-        if (token) {
-          this.config.setAuth(token);
-          this.busEvents.notifyReload(route);
-        }
-      },
-        error => {
-          console.log(error);
-          if (error.status === 401) {
-            localStorage.clear();
-          }
-        });
-    });
   }
 
   ngOnInit() {

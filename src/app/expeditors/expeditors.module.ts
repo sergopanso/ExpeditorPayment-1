@@ -12,6 +12,11 @@ import { FormsModule } from '@angular/forms';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'customers',
+    pathMatch: 'full'
+  },
+  {
+    path: 'authentication',
     component: ExpeditorsComponent
   },
   {

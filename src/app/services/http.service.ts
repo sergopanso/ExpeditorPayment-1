@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private http: Http, private config: ConfigService) { }
+  private errorRoute = 'tabs/expeditors/authentication';
+  constructor(private http: Http, private config: ConfigService, private router: Router) { }
 
   getList(route: string, params?: any): Observable<any[]> {
     return this.http.get(`${this.config.host}/${this.config[route]}`,
@@ -21,10 +23,9 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: any) => {
-        return throwError(error);
-      }));
+      .pipe(catchError(this.handleError));
   }
+
   getItem(route: string, params?: any): Observable<any> {
     return this.http.get(`${this.config.host}/${route}`,
       new RequestOptions({
@@ -34,34 +35,25 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: any) => {
-        return throwError(error);
-      }));
+      .pipe(catchError(this.handleError));
   }
-  getToken(): any {
-    const data = {
-      email: this.config.username,
-      password: this.config.password,
-      // required when signing up with username/password
-      grant_type: 'password'
-    };
-    return this.http.post(this.config.token, this.config.toUrlEncodedString(data),
+
+  getToken(data): any {
+    return this.http.post(`${this.config.authHost}/${this.config.token}`, JSON.stringify(data),
       new RequestOptions({
         headers: new Headers({
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: any) => {
-        return throwError(error);
-      }));
+      .pipe(catchError(this.handleError));
   }
-  private encodeParams(params: any): URLSearchParams {
-    return Object.keys(params)
-      .filter(key => params[key])
-      .reduce((accum: URLSearchParams, key: string) => {
-        accum.append(key, params[key]);
-        return accum;
-      }, new URLSearchParams());
-  }
+
+  handleError(error: HttpErrorResponse){
+    console.log(error.message);
+    if(error.status == 401){
+      this.router.navigate([this.errorRoute]);
+    }
+    return throwError(error);
+    }
 }
