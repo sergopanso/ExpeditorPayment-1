@@ -8,7 +8,7 @@
         <ion-icon name="download" class="icon-toolbar"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{expeditorTitle ? expeditorTitle :'Экспедитор не выбран'}}</ion-title>      
+    <ion-title>{{storage.expeditor ? storage.expeditor.title :'Экспедитор не выбран'}}</ion-title>      
   </ion-toolbar>
 </ion-header>
 <ion-content  (swipeleft)="swipeleftHandler()">

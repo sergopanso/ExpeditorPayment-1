@@ -48,8 +48,6 @@ export class StorageService {
       );
   }
   setToken(data: any): Observable<any> {
-    const token = this.config.getAuth();
-    const that = this;
     return this.httpService.getToken(data)
       .pipe(map(result => {
         this.config.setAuth(result);

@@ -5,6 +5,16 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
+  selector: 'modal-page',
+})
+export class ModalPage {
+
+  constructor() {
+
+  }
+
+}
+@Component({
   selector: 'app-expeditors',
   templateUrl: './expeditors.component.html',
   styleUrls: ['./expeditors.component.scss'],
@@ -19,7 +29,8 @@ export class ExpeditorsComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   color = ['avatar-box avatar-red', 'avatar-box avatar-green', 'avatar-box avatar-purple', 'avatar-box avatar-navy', 'avatar-box avatar-yellow'];
   // tslint:disable-next-line:max-line-length
-  constructor(private storage: StorageService, private events: EventsService, private router: Router, private loadingController: LoadingController) {
+  constructor(private storage: StorageService, private events: EventsService, private router: Router,
+    private loadingController: LoadingController) {
     this.data = [];
     this.events.refresh.subscribe(data => {
       if (data === this.routeData) {
@@ -73,17 +84,10 @@ export class ExpeditorsComponent implements OnInit {
     // this.storage.clearData();
     this.refresh();
   }
-  customers(e) {
+  password(e) {
     if (e) {
-      const data = {
-        agentCode: e.id,
-        password: e.code,
-        // required when signing up with username/password
-      };
-      this.storage.setToken(data).subscribe(()=>{
         this.storage.expeditor = e;
-        this.router.navigate(['tabs/expeditors/customers', e]);
-      })
+        this.router.navigate(['tabs/expeditors/password']);
     }
     console.log(e);
   }

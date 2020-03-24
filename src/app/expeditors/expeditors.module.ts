@@ -8,6 +8,7 @@ import { InvoicesComponent } from './invoices/invoices.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { FormsModule } from '@angular/forms';
+import { PasswordComponent } from './password/password.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'authentication',
     component: ExpeditorsComponent
+  },
+  {
+    path: 'password',
+    component: PasswordComponent
   },
   {
     path: 'customers',
@@ -47,7 +52,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [ExpeditorsComponent, CustomersComponent, InvoicesComponent, PaymentComponent, PaymentsComponent]
+  declarations: [ExpeditorsComponent, CustomersComponent, InvoicesComponent, PaymentComponent, PaymentsComponent,PasswordComponent]
 })
 export class ExpeditorsModule { }
 

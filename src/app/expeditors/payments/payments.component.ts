@@ -4,6 +4,7 @@ import { EventsService } from '../../services/events.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
 import { Location } from '@angular/common';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-payments',
@@ -17,7 +18,7 @@ export class PaymentsComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
     // tslint:disable-next-line:align
-    private config: ConfigService, private location: Location) {
+    private config: ConfigService, private location: Location, private httpService:HttpService) {
     this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
   }
 
@@ -26,4 +27,18 @@ export class PaymentsComponent implements OnInit {
   swipeleftHandler() {
     this.location.back();
   }
-}
+  save(){
+    const paymentsToSave =  this.payments.filter(payment=>payment.isSaved);
+    if(paymentsToSave.length > 0)
+    {
+        this.httpService.savePayment(paymentsToSave).subscribe(()=>{
+          this.payments = this.payments.map(payment=>{
+            payment.isSaved = true;
+            return payment;
+          });
+          localStorage.setItem(this.storageKey,JSON.stringify(this.payments));
+        })
+          
+      }
+    }
+  }

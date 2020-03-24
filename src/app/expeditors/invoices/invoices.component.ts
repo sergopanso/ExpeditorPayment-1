@@ -15,7 +15,6 @@ export class InvoicesComponent implements OnInit {
 
   customerId: string;
   customerTitle: string;
-  expeditorId: string;
   data: any[];
   isLoading: boolean;
   private routeData: string;
@@ -31,18 +30,16 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     // tslint:disable-next-line:max-line-length
-    this.expeditorId = this.route.snapshot.paramMap.get('expeditorId') ? this.route.snapshot.paramMap.get('expeditorId') : this.storage.expeditor && this.storage.expeditor.id;
+    this.customerId = this.storage.customer.id;
     // tslint:disable-next-line:max-line-length
-    this.customerId = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : this.storage.customer && this.storage.customer.id;
-    // tslint:disable-next-line:max-line-length
-    this.customerTitle = this.route.snapshot.paramMap.get('title') ? this.route.snapshot.paramMap.get('title') : this.storage.customer && this.storage.customer.title;
+    this.customerTitle = this.storage.customer.title;
+    this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
     if (this.customerId) {
       this.refresh();
     }
-    this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
   }
   refresh() {
-    this.storage.getDataList(this.routeData, { customerId: this.customerId, expeditorId: this.expeditorId }).subscribe(result => {
+    this.storage.getDataList(this.routeData, { customerId: this.customerId }).subscribe(result => {
       if (result && Array.isArray(result) && result.length > 0) {
         this.data = result.map(item => {
           item.total = this.helpers.numberWithSpaces((Math.round(item.total * 100)) / 100);
