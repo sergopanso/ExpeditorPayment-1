@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'tabs/expeditors',
     pathMatch: 'full'
   }
 ];

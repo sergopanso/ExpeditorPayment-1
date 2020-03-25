@@ -27,11 +27,19 @@ export class CustomersComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.events.refresh.subscribe(data=>{
+        if(data === 'customers'){
+          this.refresh();
+        }
+      })
       this.refresh();
   }
   refresh() {
     this.storage.getDataList(this.routeData).subscribe(result => {
       if (result && Array.isArray(result) && result.length > 0) {
+        if(!this.storage.expeditor){
+          this.storage.expeditor = JSON.parse(localStorage.getItem('expeditor'));
+        }
         this.data = result.map(item => {
           item.done = false;
           item.orderTitle = (item.minOrder === item.maxOrder ? `${item.minOrder}` : `${item.minOrder}-${item.maxOrder}`);
@@ -41,11 +49,7 @@ export class CustomersComponent implements OnInit {
     },
       error => {
         console.log(error);
-        if (error.status && error.status === 401) {
-          this.events.notifyRefreshToken(this.routeData);
-        } else {
-          this.isLoading = false;
-        }
+        this.isLoading = false;
       });
   }
   async download() {
@@ -58,6 +62,7 @@ export class CustomersComponent implements OnInit {
   invoices(e) {
     if (e) {
       this.storage.customer = e;
+      this.events.notifyTabButtonActivate('cart');
       this.router.navigate(['tabs/expeditors/invoices', e]);
     }
   }

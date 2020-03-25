@@ -19,7 +19,6 @@ export class InvoicesComponent implements OnInit {
   isLoading: boolean;
   private routeData: string;
   private payments: any[];
-  private storageKey: 'payments';
   // tslint:disable-next-line:max-line-length
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
     // tslint:disable-next-line:align
@@ -30,10 +29,10 @@ export class InvoicesComponent implements OnInit {
 
   ngOnInit() {
     // tslint:disable-next-line:max-line-length
-    this.customerId = this.storage.customer.id;
+    this.customerId = this.storage.customer ? this.storage.customer.id : '';
     // tslint:disable-next-line:max-line-length
-    this.customerTitle = this.storage.customer.title;
-    this.payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
+    this.customerTitle = this.storage.customer ? this.storage.customer.title : '';
+    this.payments = JSON.parse(localStorage.getItem(this.storage.paymentsStorageKey)) || [] ;
     if (this.customerId) {
       this.refresh();
     }
@@ -53,11 +52,7 @@ export class InvoicesComponent implements OnInit {
     },
       error => {
         console.log(error);
-        if (error.status && error.status === 401) {
-          this.events.notifyRefreshToken(this.routeData);
-        } else {
-          this.isLoading = false;
-        }
+        this.isLoading = false;
       });
   }
   async download() {
@@ -67,6 +62,7 @@ export class InvoicesComponent implements OnInit {
   invoice(e) {
     if (e) {
       this.storage.invoice = e;
+      this.events.notifyTabButtonActivate('cash');
       this.router.navigate(['tabs/expeditors/payment']);
     }
   }

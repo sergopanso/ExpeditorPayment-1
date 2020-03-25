@@ -13,6 +13,7 @@ export class StorageService {
   public customer: any;
   public expeditor: any;
   public invoice: any;
+  public paymentsStorageKey = 'payments';
   constructor(private busService: EventsService, private httpService: HttpService, private config: ConfigService) { }
 
   getDataList(route: string, parameters?: any): Observable<any[]> {

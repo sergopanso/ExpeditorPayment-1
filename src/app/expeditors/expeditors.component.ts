@@ -37,11 +37,6 @@ export class ExpeditorsComponent implements OnInit {
         this.refresh();
       }
     });
-    this.events.reload.subscribe(data => {
-      if (data === this.routeData) {
-        this.download();
-      }
-    });
     this.data = [];
     this.loading$ = this.loadingController.create({
       message: 'Загрузка...',
@@ -73,10 +68,6 @@ export class ExpeditorsComponent implements OnInit {
     },
       error => {
         console.log(error);
-        if (error.status && error.status === 401) {
-          this.events.notifyRefreshToken(this.routeData);
-        } else {
-        }
       },
       () => this.loading.dismiss());
   }
@@ -86,8 +77,9 @@ export class ExpeditorsComponent implements OnInit {
   }
   password(e) {
     if (e) {
-        this.storage.expeditor = e;
-        this.router.navigate(['tabs/expeditors/password']);
+      this.storage.expeditor = e;
+      localStorage.setItem('expeditor', JSON.stringify(e));
+      this.router.navigate(['tabs/expeditors/password']);
     }
     console.log(e);
   }

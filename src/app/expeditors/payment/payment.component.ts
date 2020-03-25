@@ -4,7 +4,7 @@ import { EventsService } from '../../services/events.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
 import { HelpersService } from 'src/app/services/helpers.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
@@ -14,7 +14,6 @@ import {Location} from '@angular/common';
 export class PaymentComponent implements OnInit {
 
   invoice: any;
-  private storageKey: 'payments';
   private payment: number;
   // tslint:disable-next-line:max-line-length
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
@@ -24,19 +23,22 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.invoice = this.storage.invoice;
-    this.payment = Number.parseFloat(this.invoice.total.replace(' ', ''));
+    this.payment = this.storage.invoice ? Number.parseFloat(this.invoice.total.replace(' ', '')) : 0;
   }
   handlePayment(e) {
     this.payment = e.target.value;
   }
   save() {
-    const payments = JSON.parse(localStorage.getItem(this.storageKey)) ? JSON.parse(localStorage.getItem(this.storageKey)) : [] ;
+    // tslint:disable-next-line:max-line-length
+    let payments = JSON.parse(localStorage.getItem(this.storage.paymentsStorageKey)) || [];
     if (this.payment > 0) {
       this.invoice.payment = this.payment;
-      this.invoice.isSaved = null;
+      this.invoice.isSaved = false;
+      payments = payments.filter(item => item.docId !== this.invoice.docId);
       payments.push(this.invoice);
-      localStorage.setItem(this.storageKey, JSON.stringify(payments));
+      localStorage.setItem(this.storage.paymentsStorageKey, JSON.stringify(payments));
       this.storage.invoice = null;
+      this.events.notifyTabButtonActivate('cart');
       this.router.navigate(['tabs/expeditors/invoices']);
     }
   }

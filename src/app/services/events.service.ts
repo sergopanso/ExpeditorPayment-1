@@ -6,31 +6,18 @@ import { Subject } from 'rxjs';
 })
 export class EventsService {
 
-  refresh = new Subject<any>();
-  reload = new Subject<any>();
-  refreshToken = new Subject<any>();
-  clearAll = new Subject<any>();
-
-
-
+  refresh = new Subject<string>();
+  tabButtonActivate = new Subject<string>();
   constructor() { }
 
-  public notifyRefresh(data: any) {
+  public notifyRefresh(data: string) {
     if (data) {
       this.refresh.next(data);
     }
   }
-  public notifyReload(data: any) {
+  public notifyTabButtonActivate(data: string) {
     if (data) {
-      this.reload.next(data);
+      this.tabButtonActivate.next(data);
     }
-  }
-  public notifyRefreshToken(data: any) {
-    if (data) {
-      this.refreshToken.next(data);
-    }
-  }
-  public notifyClearAll() {
-      this.clearAll.next();
   }
 }

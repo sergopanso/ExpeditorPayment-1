@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { EventsService } from './events.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class HttpService {
 
   private errorRoute = 'tabs/expeditors/authentication';
-  constructor(private http: Http, private config: ConfigService, private router: Router) { }
+  constructor(private http: Http, private config: ConfigService, private router: Router, private events:EventsService) { }
 
   getList(route: string, params?: any): Observable<any[]> {
     return this.http.get(`${this.config.host}/${this.config[route]}`,
@@ -26,6 +27,7 @@ export class HttpService {
       .pipe(catchError((error: HttpErrorResponse)=>{
         console.log(error.statusText);
         if(error.status == 401){
+          this.events.notifyTabButtonActivate('person');          
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
@@ -42,8 +44,8 @@ export class HttpService {
       }))
       .pipe(map(response => response.json()))
       .pipe(catchError((error: HttpErrorResponse)=>{
-        console.log(error.statusText);
         if(error.status == 401){
+          this.events.notifyTabButtonActivate('person');
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
@@ -61,6 +63,7 @@ export class HttpService {
       .pipe(catchError((error: HttpErrorResponse)=>{
         console.log(error.statusText);
         if(error.status == 401){
+          this.events.notifyTabButtonActivate('person');          
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
@@ -79,6 +82,7 @@ export class HttpService {
       .pipe(catchError((error: HttpErrorResponse)=>{
         console.log(error.statusText);
         if(error.status == 401){
+          this.events.notifyTabButtonActivate('person');          
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage.service';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-password',
@@ -11,7 +12,7 @@ import {Location} from '@angular/common';
 export class PasswordComponent implements OnInit {
 
   password: string;
-  constructor(private storage: StorageService, private router: Router, private location: Location) {
+  constructor(private storage: StorageService, private router: Router, private location: Location, private events: EventsService) {
 
   }
   ngOnInit() { 
@@ -24,6 +25,8 @@ export class PasswordComponent implements OnInit {
         password: this.password
       };
       this.storage.setToken(data).subscribe(() => {
+        this.events.notifyRefresh('customers');
+        this.events.notifyTabButtonActivate('people');
         this.router.navigate(['tabs/expeditors/customers']);
       })
     }

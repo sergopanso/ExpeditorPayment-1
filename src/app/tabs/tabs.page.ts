@@ -10,10 +10,19 @@ import { HttpService } from '../services/http.service';
 })
 export class TabsPage implements OnInit {
 
+  public selectedTab='people';
   constructor(private busEvents: EventsService, private httpService: HttpService, private config: ConfigService) {
+    this.busEvents.tabButtonActivate.subscribe(data => {
+      console.log(data);
+      this.selectedTab = data;
+    });
   }
 
   ngOnInit() {
   }
 
+  select(title) {
+    this.selectedTab = title;
+    return true;
+  }
 }
