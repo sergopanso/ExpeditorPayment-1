@@ -61,9 +61,11 @@ export class StorageService {
   }
   clearData() {
     const token = this.config.getAuth();
+    const expeditor = localStorage.getItem('expeditor');
     localStorage.clear();
     if (token) {
       this.config.setAuth(token);
+      localStorage.setItem('expeditor',expeditor);
     }
   }
 }

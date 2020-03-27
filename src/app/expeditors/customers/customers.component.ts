@@ -4,6 +4,7 @@ import { EventsService } from '../../services/events.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
 import { Location } from '@angular/common';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-customers',
@@ -15,14 +16,14 @@ export class CustomersComponent implements OnInit {
 
   data: any[];
   isLoading: boolean;
-  private routeData: string;
+  private routeData = 'customers';
+  private routeDataIvoices = 'invoices';
   private isFilter: boolean;
   // tslint:disable-next-line:max-line-length
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
     // tslint:disable-next-line:align
     private config: ConfigService, private location: Location) {
     this.data = [];
-    this.routeData = 'customers';
     this.isFilter = true;
   }
 
@@ -45,6 +46,7 @@ export class CustomersComponent implements OnInit {
           item.orderTitle = (item.minOrder === item.maxOrder ? `${item.minOrder}` : `${item.minOrder}-${item.maxOrder}`);
           return item;
         });
+        this.refreshInvoices(this.data);
       }
     },
       error => {
@@ -53,7 +55,7 @@ export class CustomersComponent implements OnInit {
       });
   }
   async download() {
-    // this.storage.clearData();
+    this.storage.clearData();
     this.refresh();
   }
   filter() {
@@ -68,5 +70,11 @@ export class CustomersComponent implements OnInit {
   }
   swipeleftHandler() {
     this.location.back();
+  }
+  refreshInvoices(customers){
+    const customers$ = customers.map(customer=>this.storage.getDataList(this.routeDataIvoices, { customerId: customer.id }));
+    zip(...customers$).subscribe();
+  }
+  saveInvoice(){
   }
 }
