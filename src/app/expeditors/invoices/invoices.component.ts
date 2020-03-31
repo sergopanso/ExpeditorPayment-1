@@ -4,7 +4,7 @@ import { EventsService } from '../../services/events.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
 import { HelpersService } from 'src/app/services/helpers.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-invoices',
@@ -25,14 +25,22 @@ export class InvoicesComponent implements OnInit {
     private config: ConfigService, private helpers: HelpersService, private location: Location) {
     this.data = [];
     this.routeData = 'invoices';
+    this.events.tabButtonActivate.subscribe(action => {
+      if (action === 'cart') {
+        this.update();
+      }
+    });
   }
 
   ngOnInit() {
+    this.update();
+  }
+  update() {
     // tslint:disable-next-line:max-line-length
     this.customerId = this.storage.customer ? this.storage.customer.id : '';
     // tslint:disable-next-line:max-line-length
     this.customerTitle = this.storage.customer ? this.storage.customer.title : '';
-    this.payments = JSON.parse(localStorage.getItem(this.storage.paymentsStorageKey)) || [] ;
+    this.payments = JSON.parse(localStorage.getItem(this.storage.paymentsStorageKey)) || [];
     if (this.customerId) {
       this.refresh();
     }
@@ -61,6 +69,7 @@ export class InvoicesComponent implements OnInit {
   }
   invoice(e) {
     if (e) {
+      console.log(e);
       this.storage.invoice = e;
       this.events.notifyTabButtonActivate('cash');
       this.router.navigate(['tabs/expeditors/payment']);

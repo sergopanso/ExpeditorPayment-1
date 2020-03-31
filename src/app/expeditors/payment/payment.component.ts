@@ -19,9 +19,17 @@ export class PaymentComponent implements OnInit {
   constructor(private storage: StorageService, private events: EventsService, private router: Router, private route: ActivatedRoute,
     // tslint:disable-next-line:align
     private config: ConfigService, private helpers: HelpersService, private location: Location) {
+    this.events.tabButtonActivate.subscribe(action => {
+      if (action === 'cash') {
+        this.update();
+      }
+    });
   }
 
   ngOnInit() {
+    this.update();
+  }
+  update() {
     this.invoice = this.storage.invoice;
     this.payment = this.storage.invoice ? Number.parseFloat(this.invoice.total.replace(' ', '')) : 0;
   }
