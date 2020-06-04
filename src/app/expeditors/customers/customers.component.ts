@@ -28,17 +28,17 @@ export class CustomersComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.events.refresh.subscribe(data=>{
-        if(data === 'customers'){
-          this.refresh();
-        }
-      })
-      this.refresh();
+    this.events.refresh.subscribe(data => {
+      if (data === 'customers') {
+        this.refresh();
+      }
+    });
+    this.refresh();
   }
   refresh() {
     this.storage.getDataList(this.routeData).subscribe(result => {
       if (result && Array.isArray(result) && result.length > 0) {
-        if(!this.storage.expeditor){
+        if (!this.storage.expeditor) {
           this.storage.expeditor = JSON.parse(localStorage.getItem('expeditor'));
         }
         this.data = result.map(item => {
@@ -71,10 +71,10 @@ export class CustomersComponent implements OnInit {
   swipeleftHandler() {
     this.location.back();
   }
-  refreshInvoices(customers){
-    const customers$ = customers.map(customer=>this.storage.getDataList(this.routeDataIvoices, { customerId: customer.id }));
+  refreshInvoices(customers) {
+    const customers$ = customers.map(customer => this.storage.getDataList(this.routeDataIvoices, { customerId: customer.id }));
     zip(...customers$).subscribe();
   }
-  saveInvoice(){
+  saveInvoice() {
   }
 }

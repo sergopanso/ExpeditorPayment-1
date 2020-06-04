@@ -52,7 +52,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [ExpeditorsComponent, CustomersComponent, InvoicesComponent, PaymentComponent, PaymentsComponent,PasswordComponent]
+  declarations: [ExpeditorsComponent, CustomersComponent, InvoicesComponent, PaymentComponent, PaymentsComponent, PasswordComponent]
 })
 export class ExpeditorsModule { }
 

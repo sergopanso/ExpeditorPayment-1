@@ -4,6 +4,9 @@
       <ion-button size="small" (click)="swipeleftHandler()" color="default">Back</ion-button>
     </ion-buttons>
     <ion-buttons slot="primary">
+      <ion-button (click)="clearAlert()" *ngIf="payments.length > 0">
+        <ion-icon name="trash" class="icon-toolbar"></ion-icon>
+      </ion-button>
       <ion-button (click)="save()">
         <ion-icon name="save" class="icon-toolbar"></ion-icon>
       </ion-button>
@@ -14,8 +17,9 @@
 <ion-content (swipeleft)="swipeleftHandler()">
     <ion-grid>
       <ion-row class="table-head ion-padding-top ion-padding-start ion-padding-end">
+        <ion-col size="8" class="ion-text-center"></ion-col>
         <ion-col size="4" class="ion-text-center">
-          <ion-note>{{total}}</ion-note>
+          <ion-note color="primary" class="total">{{total}}</ion-note>
         </ion-col>      
       </ion-row>      
       <ion-row class="table-head ion-padding-top ion-padding-start ion-padding-end">

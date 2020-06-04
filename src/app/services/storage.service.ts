@@ -19,6 +19,7 @@ export class StorageService {
   getDataList(route: string, parameters?: any): Observable<any[]> {
     let key = `${route}`;
     if (parameters) {
+      // tslint:disable-next-line:forin
       for (let prop in parameters) {
         key = `${key}${parameters[prop]}`;
       }
@@ -35,6 +36,7 @@ export class StorageService {
   getDataItem(route: string, parameters?: any): Observable<any> {
     let key = `${route}`;
     if (parameters) {
+      // tslint:disable-next-line:forin
       for (let prop in parameters) {
         key = `${key}${parameters[prop]}`;
       }
@@ -65,7 +67,7 @@ export class StorageService {
     localStorage.clear();
     if (token) {
       this.config.setAuth(token);
-      localStorage.setItem('expeditor',expeditor);
+      localStorage.setItem('expeditor', expeditor);
     }
   }
 }

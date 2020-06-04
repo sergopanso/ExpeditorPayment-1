@@ -13,7 +13,7 @@ import { EventsService } from './events.service';
 export class HttpService {
 
   private errorRoute = 'tabs/expeditors/authentication';
-  constructor(private http: Http, private config: ConfigService, private router: Router, private events:EventsService) { }
+  constructor(private http: Http, private config: ConfigService, private router: Router, private events: EventsService) { }
 
   getList(route: string, params?: any): Observable<any[]> {
     return this.http.get(`${this.config.host}/${this.config[route]}`,
@@ -24,14 +24,14 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: HttpErrorResponse)=>{
+      .pipe(catchError((error: HttpErrorResponse) => {
         console.log(error.statusText);
-        if(error.status == 401){
-          this.events.notifyTabButtonActivate('person');          
+        if (error.status === 401) {
+          this.events.notifyTabButtonActivate('person');
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
-        }));
+      }));
   }
 
   getItem(route: string, params?: any): Observable<any> {
@@ -43,16 +43,16 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: HttpErrorResponse)=>{
-        if(error.status == 401){
+      .pipe(catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
           this.events.notifyTabButtonActivate('person');
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
-        }));
+      }));
   }
 
-  getToken(data:any): any {
+  getToken(data: any): any {
     return this.http.post(`${this.config.authHost}/${this.config.token}`, JSON.stringify(data),
       new RequestOptions({
         headers: new Headers({
@@ -60,17 +60,17 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: HttpErrorResponse)=>{
+      .pipe(catchError((error: HttpErrorResponse) => {
         console.log(error.statusText);
-        if(error.status == 401){
-          this.events.notifyTabButtonActivate('person');          
+        if (error.status === 401) {
+          this.events.notifyTabButtonActivate('person');
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
-        }));
+      }));
   }
 
-  savePayment(payment:any): any {
+  savePayment(payment: any): any {
     return this.http.post(`${this.config.host}/${this.config.save}`, JSON.stringify(payment),
       new RequestOptions({
         headers: new Headers({
@@ -79,21 +79,21 @@ export class HttpService {
         })
       }))
       .pipe(map(response => response.json()))
-      .pipe(catchError((error: HttpErrorResponse)=>{
+      .pipe(catchError((error: HttpErrorResponse) => {
         console.log(error.statusText);
-        if(error.status == 401){
-          this.events.notifyTabButtonActivate('person');          
+        if (error.status === 401) {
+          this.events.notifyTabButtonActivate('person');
           this.router.navigate([this.errorRoute]);
         }
         return throwError(error);
-        }));
+      }));
   }
 
-  handleError(error: HttpErrorResponse){
+  handleError(error: HttpErrorResponse) {
     console.log(error.statusText);
-    if(error.status == 401){
+    if (error.status === 401) {
       this.router.navigate([this.errorRoute]);
     }
     return throwError(error);
-    }
+  }
 }

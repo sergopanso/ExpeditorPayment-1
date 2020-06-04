@@ -76,6 +76,6 @@ export class InvoicesComponent implements OnInit {
     }
   }
   swipeleftHandler() {
-    this.location.back();
+    this.router.navigate(['tabs/expeditors/customers']);
   }
 }

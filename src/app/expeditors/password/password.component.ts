@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage.service';
 import { Router } from '@angular/router';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { EventsService } from 'src/app/services/events.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class PasswordComponent implements OnInit {
   constructor(private storage: StorageService, private router: Router, private location: Location, private events: EventsService) {
 
   }
-  ngOnInit() { 
+  ngOnInit() {
     this.password = this.storage.expeditor.code;
   }
   send(e) {
@@ -28,9 +28,8 @@ export class PasswordComponent implements OnInit {
         this.events.notifyRefresh('customers');
         this.events.notifyTabButtonActivate('people');
         this.router.navigate(['tabs/expeditors/customers']);
-      })
+      });
     }
-    console.log(e);
   }
   swipeleftHandler() {
     this.location.back();

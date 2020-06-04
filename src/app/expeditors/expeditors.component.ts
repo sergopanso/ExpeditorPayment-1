@@ -30,7 +30,7 @@ export class ExpeditorsComponent implements OnInit {
   color = ['avatar-box avatar-red', 'avatar-box avatar-green', 'avatar-box avatar-purple', 'avatar-box avatar-navy', 'avatar-box avatar-yellow'];
   // tslint:disable-next-line:max-line-length
   constructor(private storage: StorageService, private events: EventsService, private router: Router,
-    private loadingController: LoadingController) {
+              private loadingController: LoadingController) {
     this.data = [];
     this.events.refresh.subscribe(data => {
       if (data === this.routeData) {
@@ -72,7 +72,7 @@ export class ExpeditorsComponent implements OnInit {
       () => this.loading.dismiss());
   }
   async download() {
-    // this.storage.clearData();
+    this.storage.clearData();
     this.refresh();
   }
   password(e) {

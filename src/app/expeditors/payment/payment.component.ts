@@ -34,7 +34,7 @@ export class PaymentComponent implements OnInit {
     this.payment = this.storage.invoice ? Number.parseFloat(this.invoice.total.replace(' ', '')) : 0;
   }
   handlePayment(e) {
-    this.payment = e.target.value;
+    this.payment =  e.target.value;
   }
   save() {
     // tslint:disable-next-line:max-line-length
@@ -47,7 +47,7 @@ export class PaymentComponent implements OnInit {
       localStorage.setItem(this.storage.paymentsStorageKey, JSON.stringify(payments));
       this.storage.invoice = null;
       this.events.notifyTabButtonActivate('cart');
-      this.router.navigate(['tabs/expeditors/invoices']);
+      this.swipeleftHandler();
     }
   }
   swipeleftHandler() {
