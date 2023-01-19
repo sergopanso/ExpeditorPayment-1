@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from './config.service';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { ConfigService } from './config.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -10,9 +10,12 @@ import { EventsService } from './events.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class HttpService {
 
   private errorRoute = 'tabs/expeditors/authentication';
+  /*constructor(private http: Http, private config: ConfigService, private router: Router, private events: EventsService) { }*/
+
   constructor(private http: Http, private config: ConfigService, private router: Router, private events: EventsService) { }
 
   getList(route: string, params?: any): Observable<any[]> {
